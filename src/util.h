@@ -5,11 +5,29 @@
 extern "C" {
 #endif
 
+#include "rtp.h"
 #include <stddef.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <string.h>
+
+#include <sys/time.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+
+int WaitForMsg(int sock, int timeout);
+
+rtp_packet_t SendMsgAck(int sock, rtp_packet_t pkt, int required_seqnum, int required_flags, struct sockaddr_in addr, int retry_times, int timeout);
+
+rtp_packet_t EmptyPacket();
+
+rtp_packet_t NewPacket(uint32_t seq_num, uint16_t length, uint8_t flags, char* payload);
+
+int CheckPacket(rtp_packet_t pkt); 
 
 uint32_t compute_checksum(const void *pkt, size_t n_bytes);
 
